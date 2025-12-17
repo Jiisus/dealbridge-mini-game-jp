@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2B営業効率レベル診断</title>
+    <!-- SNS 공유를 위한 메타 태그 (일본어) -->
+    <meta property="og:title" content="B2B営業効率レベル診断">
+    <meta property="og:description" content="私の営業タイプは？無料診断テストをやってみてください！">
+    <style>
+        /* 기본 스타일 설정 */
+        :root {
+            --primary-color: #2563eb; /* 메인 블루 */
+            --secondary-color: #1e40af;
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+            --highlight-color: #ff4757; /* 강조 레드 */
+        }
+
+        * { box-sizing: border-box; font-family: 'Pretendard', 'Malgun Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 캐릭터 스타일 */
+        .mascot-wrapper {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* 둥둥 떠다니는 애니메이션 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* 1. 시작 화면 */
+        #start-screen { text-align: center; width: 100%; }
+        .main-title { font-size: 26px; font-weight: 800; margin-bottom: 15px; color: var(--primary-color); line-height: 1.4; }
+        .sub-desc { font-size: 16px; color: #666; margin-bottom: 30px; line-height: 1.6; }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, background 0.3s;
+            margin-bottom: 10px; /* 버튼 간 간격 추가 */
+        }
+        .btn:hover { background-color: var(--secondary-color); transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+
+        /* 공유하기 버튼 스타일 */
+        .btn-share {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        .btn-share:hover {
+            background-color: #eff6ff;
+            color: var(--secondary-color);
+        }
+
+        /* 2. 질문 화면 */
+        #quiz-screen { display: none; width: 100%; }
+        .progress-bar-container { width: 100%; height: 8px; background: #e5e7eb; border-radius: 5px; margin-bottom: 30px; }
+        .progress-bar { height: 100%; background: var(--primary-color); width: 0%; border-radius: 5px; transition: width 0.3s; }
+        
+        .question-number { color: var(--primary-color); font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+        .question-text { font-size: 20px; font-weight: 700; margin-bottom: 30px; line-height: 1.4; }
+        
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #4b5563;
+        }
+        .option-btn:hover { border-color: var(--primary-color); background: #eff6ff; color: var(--primary-color); font-weight: 600; }
+
+        /* 3. 결과 화면 */
+        #result-screen { display: none; text-align: center; width: 100%; animation: fadeIn 0.5s; padding-bottom: 20px; }
+        .result-badge { 
+            display: inline-block; 
+            background: #eff6ff; 
+            color: var(--primary-color); 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            margin-bottom: 15px; 
+        }
+        .result-title { font-size: 24px; font-weight: 800; margin-bottom: 15px; }
+        .result-desc { font-size: 15px; color: #4b5563; line-height: 1.6; margin-bottom: 25px; word-break: keep-all; }
+        
+        .solution-box {
+            background: #f8fafc;
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .solution-title { font-weight: 800; font-size: 18px; margin-bottom: 10px; color: var(--primary-color); }
+        .solution-text { font-size: 15px; line-height: 1.6; }
+        .highlight { color: var(--highlight-color); font-weight: 900; background: #fff1f2; padding: 2px 5px; border-radius: 4px; }
+
+        .cta-section { background: #1e293b; padding: 20px; border-radius: 15px; color: white; margin-top: 20px; margin-bottom: 20px; }
+        .cta-text { font-size: 14px; margin-bottom: 15px; line-height: 1.5; opacity: 0.9; }
+        .cta-btn {
+            background: var(--highlight-color);
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            animation: pulse 2s infinite;
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover { transform: scale(1.02); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); } }
+
+        /* 모바일 대응 */
+        @media (max-width: 480px) {
+            .container { height: 100vh; border-radius: 0; padding: 20px; }
+            .main-title { font-size: 22px; }
+            .question-text { font-size: 18px; }
+            .mascot-wrapper { width: 100px; height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+        <!-- 🤖 귀여운 블루 캐릭터 (SVG) -->
+        <div class="mascot-wrapper" style="margin: 0 auto 20px auto;">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" fill="#2563eb" />
+                <ellipse cx="70" cy="60" rx="20" ry="10" fill="white" opacity="0.2" transform="rotate(-45 70 60)" />
+                <circle cx="65" cy="90" r="12" fill="white" />
+                <circle cx="67" cy="88" r="4" fill="#1e40af" />
+                <circle cx="135" cy="90" r="12" fill="white" />
+                <circle cx="133" cy="88" r="4" fill="#1e40af" />
+                <path d="M 80 120 Q 100 135 120 120" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" />
+                <circle cx="50" cy="110" r="8" fill="#93c5fd" opacity="0.6" />
+                <circle cx="150" cy="110" r="8" fill="#93c5fd" opacity="0.6" />
+                <line x1="100" y1="10" x2="100" y2="0" stroke="#2563eb" stroke-width="4" />
+                <circle cx="100" cy="10" r="8" fill="#ff4757" />
+            </svg>
+        </div>
+
+        <h1 class="main-title">あなたの営業効率レベルは？<br><span style="font-size:0.8em; font-weight:500;">(デスクでも勝利できるB2B営業タイプ診断)</span></h1>
+        <p class="sub-desc">
+            僕は現場に向いてるか？それとも、戦略に強いか？<br>
+            10個の質問でわかる僕のB2B営業スタイル！<br>
+            タイプにピッタリな <b>無料ソリューション</b>確認してみてね。
+        </p>
+        <button class="btn" onclick="startQuiz()">診断開始</button>
+    </div>
+
+    <!-- 2. 퀴즈 화면 -->
+    <div id="quiz-screen">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="question-number">Q<span id="q-num">1</span></div>
+        <div class="question-text" id="q-text">質問内容</div>
+        <div id="options-container">
+            <!-- 버튼들이 자바스크립트로 생성됨 -->
+        </div>
+    </div>
+
+    <!-- 3. 결과 화면 -->
+    <div id="result-screen">
+        <div class="mascot-wrapper" style="margin: 0 auto 15px auto; width: 80px; height: 80px;">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" fill="#2563eb" />
+                <circle cx="65" cy="90" r="12" fill="white" />
+                <circle cx="135" cy="90" r="12" fill="white" />
+                <path d="M 135 85 L 145 95 M 145 85 L 135 95" stroke="#1e40af" stroke-width="3" style="display:none;" /> 
+                <path d="M 70 120 Q 100 140 130 120" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" />
+                <circle cx="50" cy="110" r="8" fill="#93c5fd" opacity="0.6" />
+                <circle cx="150" cy="110" r="8" fill="#93c5fd" opacity="0.6" />
+                <circle cx="100" cy="10" r="8" fill="#ff4757" />
+            </svg>
+        </div>
+
+        <div class="result-badge" id="result-badge">タイプ結果</div>
+        <h2 class="result-title" id="result-title">結果タイトル</h2>
+        <p class="result-desc" id="result-desc">結果説明</p>
+        
+        <div class="solution-box">
+            <div class="solution-title">💡 DealBridge カスタムソリューション</div>
+            <div class="solution-text" id="result-solution">ソリューション内容</div>
+        </div>
+
+        <div class="cta-section">
+            <p class="cta-text">
+                "あなたの営業スタイル確認できましたか？<br>
+                最も効率的なパートナーマッチをご体験ください！"<br>
+                <span style="color:#fbbf24; font-weight:bold;">★ 現在、BETA期間全てのマッチ件 【無料】 ★</span>
+            </p>
+            <a href="https://dealbridgeforyou.imweb.me" target="_blank" class="cta-btn">Dealbridge 無料体験する ▶</a>
+        </div>
+        
+        <!-- 공유하기 버튼 -->
+        <button class="btn btn-share" onclick="shareTest()">🔗 友達と共有しよう！</button>
+        
+        <!-- 다시하기 버튼 -->
+        <button class="btn" onclick="location.reload()" style="background:#94a3b8; font-size:14px; margin-top:5px;">テストやり直し</button>
+    </div>
+</div>
+
+<script>
+    // 질문 데이터
+    const questions = [
+        {
+            q: "新たな潜在顧客リスト(DB)の確保が難しいと、一番に思い浮かぶことは？",
+            a: ["結局現場に直接行くしかないな。。", "誰か良いDBただで提供してくんないかな？", "今回はやっぱレポート一枚で済むしか。", "もし僕が逃している新しいパートナー発掘チャンネルがあるのか？"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "予想もしなかったパートナーとの電話、もしくは、打ち合わせ提案をもらった時、あなたの反応は？",
+            a: ["すぐ電話し「僕のやり方で」打ち合わせを進める。", "一応提案をもらったため、情報収集のために周りで調べてみる。", "報告ラインを検討し、この打ち合わせが規定に沿うかどうかチェックする。", "相手企業を徹底に調べ、完璧な回答を用意した上で返事する。"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "今月の成果が目標に達していない時、最も避けたい報告は？",
+            a: ["「来月まで必ず達成させます」という言い訳", "「市場の都合が悪くて。。。」と外部要因を説明する", "成果未達の原因を分析し、多量の文書として提出する", "失敗が次回の契約で及ぼす長期的影響について説明する"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "競合他社より早く「機密情報」が得られる主なチャンネルは？",
+            a: ["人脈を活かした非公式的なネットワークの場", "特定情報や技術を提供する高価レポートやサービス", "社内資料と公式化した市場リサーチレポート", "不特定多数があるオンラインビジネス・コミュニティやフォーラム"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "新たな案件を発掘する時に、最も時間がかかる段階は？",
+            a: ["パートナーに会いに行く移動及び対面時間", "適合なパートナーリストを模索する時間", "社内ガイドラインに沿った複雑な承認手続き", "失敗した場合のリスクを予測し、それを準備する時間"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "パートナーシップを提案する時、最も懸念することは？",
+            a: ["提案を見送りされると、次のチャンスがないこと", "提案できそうなパートナーがないこと", "提案書の内容と会社の公式方向にズレがあること", "パートナーシップが失敗すると、個人に責任を負うこと"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "外部で打ち合わせがない今日、あなたはどんな業務をしますか。",
+            a: ["次回の打ち合わせのための準備とメール営業", "パートナーに関するデータ収集と効率的な管理ツール検索", "溜まってる内部レポートや業務指針の検討", "失敗リスクが低い新たなプロジェクトの構想"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "営業部署に「マッチング自動化ツール」を導入したら、最も期待する効果は？",
+            a: ["より多いお客様にほぼ同時に出会えること", "営業に必要な情報・DBをシステムが自動に提供すること", "外部で入り込む案件をシステムがフィルタリングすること", "案件を進める中で生じうるリスクを事前に警告すること"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "誰か契約成功の秘訣を問う場合、あなたは？",
+            a: ["お客様と積極しやり取りし、信頼を作ろう。", "的確で豊富な市場データーを手に入れよう。", "内部規定を守って、プロセスを体系化しよう。", "真剣に検討し、リスクを上手くマネージしよう。"],
+            types: ["A", "B", "C", "D"]
+        },
+        {
+            q: "会社が新規市場に進出しようと指示したら、あなたの第一反応は？",
+            a: ["「まず現場に行ってみよう！」", "「この市場で有望なパートナーリストをどこで探せばいいかな。」", "「新規市場進出に関する社内マニュアルがあるかな？」", "「いきなり行動して失敗したらあかん。ゆっくり調べよう。」"],
+            types: ["A", "B", "C", "D"]
+        }
+    ];
+
+    // 診断結果
+    const results = {
+        "A": {
+            title: "🥇 The Hidden Gem<br>(内面型潜在専門家)",
+            desc: "分析は完璧。メール営業や電話営業に集中しすぎていませんか。あなたは内向的ですが、逆にその性格が非対面チャンネルで活躍するかもしれません。",
+            solution: "DealBridgeは、御社の分析をパートナーマッチに転換します。 <span class='highlight'>現在、BETA期間中、全てのマッチング・サービスが無料</span>です。現場に行かず、成果を作りましょう。"
+        },
+        "B": {
+            title: "🥈 The Resource Desert Runner<br>(資源不足マラソンランナー)",
+            desc: "能力は100%。ただ、コア資源(DB、時間)が足りないですね。あなたに今必要なのは「すぐ活用できる」パートナー情報です。",
+            solution: "DealBridgeは、御社の案件に沿ったパートナーを紹介します。 <span class='highlight'>BETA期間中、コストをかけずに最短でリソースを探し、契約だけに集中しましょう。</span>"
+        },
+        "C": {
+            title: "🥉 The Internal Bureaucrat<br>(社内レポートマスター)",
+            desc: "社内規定とプロセスを重視します。一方、外部活動は制約があります。レポート作成時間は減らして、検証されたパートナーに会う機会を増やしてもいいですよ。",
+            solution: "DealBridgeのパートナー検証システムは、社内報告の効率を高めます。<span class='highlight'>今登録して、コスト無く</span> 検証済み案件で社内決裁を最小限に抑えましょう。"
+        },
+        "D": {
+            title: "🏅 The Overly Cautious Strategist<br>(真面目すぎる戦略家)",
+            desc: "失敗とリスクを心配して、決定をなるべく後回しするタイプです。真剣なあなたがチャンスを逃さないためには、安全装置がある環境が大事です。",
+            solution: "DealBridgeは、匿名ベース案件登録でリスクを減らします。 <span class='highlight'>BETA期間中、無料で</span>安全なパイプラインを構築し、慎重な戦略にスピードを加えましょう。"
+        }
+    };
+
+    let currentStep = 0;
+    let scores = { A: 0, B: 0, C: 0, D: 0 };
+
+    function startQuiz() {
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'block';
+        updateQuestion();
+    }
+
+    function updateQuestion() {
+        // 진행바 업데이트
+        const progress = ((currentStep) / questions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        
+        // 문제 표시
+        document.getElementById('q-num').innerText = currentStep + 1;
+        document.getElementById('q-text').innerText = questions[currentStep].q;
+        
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        // 보기 버튼 생성
+        questions[currentStep].a.forEach((answer, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = answer;
+            btn.onclick = () => selectOption(questions[currentStep].types[index]);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectOption(type) {
+        scores[type]++;
+        currentStep++;
+
+        if (currentStep < questions.length) {
+            updateQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+
+        // 점수 계산
+        let maxScore = 0;
+        let resultType = 'A';
+
+        for (const type in scores) {
+            if (scores[type] > maxScore) {
+                maxScore = scores[type];
+                resultType = type;
+            }
+        }
+
+        const resultData = results[resultType];
+
+        document.getElementById('result-badge').innerText = `TYPE ${resultType}`;
+        document.getElementById('result-title').innerHTML = resultData.title;
+        document.getElementById('result-desc').innerText = resultData.desc;
+        document.getElementById('result-solution').innerHTML = resultData.solution;
+    }
+
+    // [수정됨] 공유하기 기능 함수 (일본어 적용)
+    async function shareTest() {
+        const url = window.location.href; // 현재 페이지 주소
+        const title = 'B2B営業効率レベル診断';
+        const text = '私の営業タイプは？無料診断テストをやってみてください！';
+
+        // 1. 모바일 등에서 네이티브 공유하기 (Navigator Share API)
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: title,
+                    text: text,
+                    url: url
+                });
+                return; // 공유 성공 시 함수 종료
+            } catch (err) {
+                console.log('Share failed/cancelled', err);
+            }
+        }
+
+        // 2. PC 등에서 링크 클립보드 복사 (Fallback)
+        try {
+            await navigator.clipboard.writeText(url);
+            alert('コピー完了！友達と共有しましょう。');
+        } catch (err) {
+            // 복사 실패 시
+            prompt('このリンクをコピーして共有しましょう:', url);
+        }
+    }
+</script>
+
+</body>
+</html>
