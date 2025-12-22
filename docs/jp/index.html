@@ -8,13 +8,12 @@
     <meta property="og:title" content="B2B営業効率レベル診断">
     <meta property="og:description" content="私の営業タイプは？無料診断テストをやってみてください！">
     <style>
-        /* 기본 스타일 설정 */
         :root {
-            --primary-color: #2563eb; /* 메인 블루 */
+            --primary-color: #2563eb;
             --secondary-color: #1e40af;
             --bg-color: #f3f4f6;
             --text-color: #1f2937;
-            --highlight-color: #ff4757; /* 강조 레드 */
+            --highlight-color: #ff4757;
         }
 
         * { box-sizing: border-box; font-family: 'Pretendard', 'Malgun Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif; }
@@ -46,7 +45,6 @@
             overflow: hidden;
         }
 
-        /* 캐릭터 스타일 */
         .mascot-wrapper {
             width: 120px;
             height: 120px;
@@ -60,7 +58,6 @@
             100% { transform: translateY(0px); }
         }
 
-        /* 1. 시작 화면 */
         #start-screen { text-align: center; width: 100%; }
         .main-title { font-size: 26px; font-weight: 800; margin-bottom: 15px; color: var(--primary-color); line-height: 1.4; }
         .sub-desc { font-size: 16px; color: #666; margin-bottom: 30px; line-height: 1.6; }
@@ -80,24 +77,19 @@
         }
         .btn:hover { background-color: var(--secondary-color); transform: translateY(-2px); }
 
-        /* 공유하기 버튼 스타일 */
         .btn-share {
             background-color: white;
             color: var(--primary-color);
             border: 2px solid var(--primary-color);
         }
-        .btn-share:hover {
-            background-color: #eff6ff;
-            color: var(--secondary-color);
-        }
+        .btn-share:hover { background-color: #eff6ff; }
 
-        /* 2. 질문 화면 */
         #quiz-screen { display: none; width: 100%; }
         .progress-bar-container { width: 100%; height: 8px; background: #e5e7eb; border-radius: 5px; margin-bottom: 30px; }
         .progress-bar { height: 100%; background: var(--primary-color); width: 0%; border-radius: 5px; transition: width 0.3s; }
         
         .question-number { color: var(--primary-color); font-weight: bold; font-size: 18px; margin-bottom: 10px; }
-        .question-text { font-size: 20px; font-weight: 700; margin-bottom: 30px; line-height: 1.4; }
+        .question-text { font-size: 20px; font-weight: 700; margin-bottom: 30px; line-height: 1.4; text-align: center; }
         
         .option-btn {
             display: block;
@@ -115,7 +107,6 @@
         }
         .option-btn:hover { border-color: var(--primary-color); background: #eff6ff; color: var(--primary-color); font-weight: 600; }
 
-        /* 3. 결과 화면 */
         #result-screen { display: none; text-align: center; width: 100%; animation: fadeIn 0.5s; padding-bottom: 20px; }
         .result-badge { 
             display: inline-block; 
@@ -171,7 +162,7 @@
 <body>
 
 <div class="container">
-    <!-- 1. 시작 화면 -->
+    <!-- 1. 開始画面 -->
     <div id="start-screen">
         <div class="mascot-wrapper" style="margin: 0 auto 20px auto;">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -188,7 +179,6 @@
                 <circle cx="100" cy="10" r="8" fill="#ff4757" />
             </svg>
         </div>
-
         <h1 class="main-title">あなたの営業効率レベルは？<br><span style="font-size:0.8em; font-weight:500;">(デスクでも勝利できるB2B営業タイプ診断)</span></h1>
         <p class="sub-desc">
             僕は現場に向いてるか？それとも、戦略に強いか？<br>
@@ -198,7 +188,7 @@
         <button class="btn" onclick="startQuiz()">診断開始</button>
     </div>
 
-    <!-- 2. 퀴즈 화면 -->
+    <!-- 2. クイズ画面 -->
     <div id="quiz-screen">
         <div class="progress-bar-container">
             <div class="progress-bar" id="progress-bar"></div>
@@ -208,7 +198,7 @@
         <div id="options-container"></div>
     </div>
 
-    <!-- 3. 결과 화면 -->
+    <!-- 3. 結果画面 -->
     <div id="result-screen">
         <div class="mascot-wrapper" style="margin: 0 auto 15px auto; width: 80px; height: 80px;">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -221,7 +211,6 @@
                 <circle cx="100" cy="10" r="8" fill="#ff4757" />
             </svg>
         </div>
-
         <div class="result-badge" id="result-badge"></div>
         <h2 class="result-title" id="result-title"></h2>
         <p class="result-desc" id="result-desc"></p>
@@ -235,27 +224,23 @@
             <p class="cta-text">
                 "あなたの営業スタイル確認できましたか？<br>
                 最も効率的なパートナーマッチをご体験ください！"<br>
-                <span style="color:#fbbf24; font-weight:bold;">★ 現在、BETA期間全てのマッチ件 【無料】 ★</span>
+                <span style="color:#fbbf24; font-weight:bold;">★ 現在、BETA期間につき全マッチング【無料】 ★</span>
             </p>
             <button onclick="handleCtaClick()" class="cta-btn">Dealbridge 無料体験する ▶</button>
         </div>
         
-        <!-- 공유하기 버튼 -->
         <button class="btn btn-share" onclick="shareTest()">🔗 友達と共有しよう！</button>
-        
-        <!-- 다시하기 버튼 -->
         <button class="btn" onclick="location.reload()" style="background:#94a3b8; font-size:14px; margin-top:5px;">テストやり直し</button>
     </div>
 </div>
 
 <script>
-    /* --- [데이터 수집 설정] --- */
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbxKcHmFKfM741OdZxN7mTVeKIY0VEAehU0aorJlAxUzPB41oZ15Ph5ecbAw1tabcpie/exec";
+    /* --- [データ収集設定] --- */
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbxQ2tUM6TzS7mILH9sWN26NhU6EAHXd5RvuVxHYek9YUTQJf7F6voR3BZ2R1tU5IIEr/exec";
     let userChoices = []; 
     let finalResultType = "";
 
     function sendDataToSheet(isMoved) {
-        // no-cors 모드로 시트에 데이터 전송
         fetch(GAS_URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -270,7 +255,7 @@
     }
 
     function handleCtaClick() {
-        sendDataToSheet("예");
+        sendDataToSheet("はい"); // 「はい」(Yes)として送信
         setTimeout(() => {
             window.open("https://dealbridgeforyou.imweb.me", "_blank");
         }, 400);
@@ -285,12 +270,12 @@
         },
         {
             q: "予想もしなかったパートナーとの電話、もしくは、打ち合わせ提案をもらった時、あなたの反応は？",
-            a: ["すぐ電話し「僕のやり方で」打ち合わせを進める。", "一応提案をもらったため、情報収集のために周りで調べてみる。", "報告ラインを検討し、この打ち合わせが規定に沿うかどうかチェック하는。", "相手企業を徹底に調べ、完璧な回答を用意した上で返事する。"],
+            a: ["すぐ電話し「僕のやり方で」打ち合わせを進める。", "一応提案をもらったため、情報収集のために周りで調べてみる。", "報告ラインを検討し、この打ち合わせが規定に沿うかどうかチェックする。", "相手企業を徹底に調べ、完璧な回答を用意した上で返事する。"],
             types: ["A", "B", "C", "D"]
         },
         {
             q: "今月の成果が目標に達していない時、最も避けたい報告は？",
-            a: ["「来月まで必ず達成させます」という言い訳", "「市場の都合が悪くて。。。」と外部要因を説明する", "成果未達の原因を分析し, 多量の文書として提出する", "失敗が次回の契約で及ぼす長期的影響について説明する"],
+            a: ["「来月まで必ず達成させます」という言い訳", "「市場の都合が悪くて。。。」と外部要因を説明する", "成果未達の原因を分析し、多量の文書として提出する", "失敗が次回の契約で及ぼす長期的影響について説明する"],
             types: ["A", "B", "C", "D"]
         },
         {
@@ -305,7 +290,7 @@
         },
         {
             q: "パートナーシップを提案する時、最も懸念することは？",
-            a: ["提案を見送りされると、次のチャンスがないこと", "提案できそうなパートナーがないこと", "提案書の内容と会社の公式方向にズレがあること", "パートナーシップが失敗すると, 個人に責任を負うこと"],
+            a: ["提案を見送りされると、次のチャンスがないこと", "提案できそうなパートナーがないこと", "提案書の内容と会社の公式方向にズレがあること", "パートナーシップが失敗すると、個人に責任を負うこと"],
             types: ["A", "B", "C", "D"]
         },
         {
@@ -320,12 +305,12 @@
         },
         {
             q: "誰か契約成功の秘訣を問う場合、あなたは？",
-            a: ["お客様と積極しやり取りし, 信頼を作ろう。", "的確で豊富な市場データーを手に入れよう。", "内部規定を守って, プロセスを体系化しよう。", "真剣に検討し, リスクを上手くマネージしよう。"],
+            a: ["お客様と積極しやり取りし、信頼を作ろう。", "的確で豊富な市場データーを手に入れよう。", "内部規定を守って、プロセスを体系化しよう。", "真剣に検討し、リスクを上手くマネージしよう。"],
             types: ["A", "B", "C", "D"]
         },
         {
             q: "会社が新規市場に進出しようと指示したら、あなたの第一反応は？",
-            a: ["「まず現場に行ってみよう！」", "「この市場で有望なパートナーリストをどこで探せばいいかな。」", "「新規市場進出に関する社内マニュアルがあるかな？」", "「いきなり行動して失敗したらあかん. ゆっくり調べよう。」"],
+            a: ["「まず現場に行ってみよう！」", "「この市場で有望なパートナーリストをどこで探せばいいかな。」", "「新規市場進出に関する社内マニュアルがあるかな？」", "「いきなり行動して失敗したらあかん。ゆっくり調べよう。」"],
             types: ["A", "B", "C", "D"]
         }
     ];
@@ -333,23 +318,23 @@
     const results = {
         "A": {
             title: "🥇 The Hidden Gem<br>(内面型潜在専門家)",
-            desc: "分析は完璧。メール営業や電話営業に集中しすぎていませんか。あなたは内向적이지만, 逆にその性格が非対面チャンネルで活躍するかもしれません。",
-            solution: "DealBridgeは、御社の分析をパートナーマッチに転換します。 <span class='highlight'>現在、BETA期間中、全てのマッチング・サービスが無料</span>です。現場に行かず、成果を作りましょう。"
+            desc: "分析は完璧。メール営業や電話営業に集中しすぎていませんか。あなたは内向的ですが、逆にその性格が非対면チャンネルで活躍するかもしれません。",
+            solution: "DealBridgeは、御社の分析をパートナーマッチに転換します。 <span class='highlight'>現在、BETA期間中、全マッチング・サービスが無料</span>です。現場に行かず、成果を作りましょう。"
         },
         "B": {
             title: "🥈 The Resource Desert Runner<br>(資源不足マラソンランナー)",
-            desc: "能力は100%。ただ, コア資源(DB, 時間)が足りないですね。あなたに今必要なのは「すぐ活用できる」パートナー情報です。",
+            desc: "能力は100%。ただ、コア資源(DB、時間)が足りないですね。あなたに今必要なのは「すぐ活用できる」パートナー情報です。",
             solution: "DealBridgeは、御社の案件に沿ったパートナーを紹介します。 <span class='highlight'>BETA期間中、コストをかけずに最短でリソースを探し、契約だけに集中しましょう。</span>"
         },
         "C": {
             title: "🥉 The Internal Bureaucrat<br>(社内レポートマスター)",
-            desc: "社内規定とプロセスを重視します. 一方, 外部活動は制約があります。レポート作成時間は減らして, 検証されたパートナーに会う機会を増やしてもいいですよ。",
-            solution: "DealBridgeのパートナー検証システムは、社内報告の効率を高めます. <span class='highlight'>今登録して, コスト無く</span> 検証済み案件で社内결재를 最小限に抑えましょう。"
+            desc: "社内規定とプロセスを重視します。一方、外部活動は制約があります。レポート作成時間は減らして、検証されたパートナーに会う機会を増やしてもいいですよ。",
+            solution: "DealBridgeのパートナー検証システムは、社内報告の効率を高めます。 <span class='highlight'>今登録して、コスト無く</span> 検証済み案件で社内決裁を最小限に抑えましょう。"
         },
         "D": {
             title: "🏅 The Overly Cautious Strategist<br>(真面目すぎる戦略家)",
-            desc: "失敗とリスクを心配して, 決定をなるべく後回しするタイプです. 真剣なあなたがチャンスを逃さないためには, 安全装置がある環境が大事です。",
-            solution: "DealBridgeは、匿名ベース案件登録でリスクを減らします. <span class='highlight'>BETA期間中、無料で</span>安全なパイプラインを構築し, 慎重な戦略にスピードを加えましょう。"
+            desc: "失敗とリスクを心配して、決定をなるべく後回しするタイプです。真剣なあなたがチャンスを逃さないためには、安全装置がある環境が大事です。",
+            solution: "DealBridgeは、匿名ベース案件登録でリスクを減らします。 <span class='highlight'>BETA期間中、無料</span>で安全なパイプライン를構築し、慎重な戦略にスピードを加えましょう。"
         }
     };
 
@@ -367,28 +352,28 @@
         document.getElementById('progress-bar').style.width = `${progress}%`;
         document.getElementById('q-num').innerText = currentStep + 1;
         document.getElementById('q-text').innerText = questions[currentStep].q;
-        const oContainer = document.getElementById('options-container');
-        oContainer.innerHTML = '';
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
         questions[currentStep].a.forEach((ans, i) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.innerText = ans;
             btn.onclick = () => {
-                userChoices.push(questions[currentStep].types[i]); // 선택 기록
+                userChoices.push(questions[currentStep].types[i]);
                 scores[questions[currentStep].types[i]]++;
                 currentStep++;
                 if (currentStep < questions.length) updateQuestion();
                 else showResult();
             };
-            oContainer.appendChild(btn);
+            container.appendChild(btn);
         });
     }
 
     function showResult() {
         document.getElementById('quiz-screen').style.display = 'none';
         document.getElementById('result-screen').style.display = 'block';
-        let maxS = 0; let resT = 'A';
-        for (const t in scores) { if (scores[t] > maxS) { maxS = scores[t]; resT = t; } }
+        let max = 0; let resT = 'A';
+        for (const t in scores) { if (scores[t] > max) { max = scores[t]; resT = t; } }
         finalResultType = resT;
         const resD = results[resT];
         document.getElementById('result-badge').innerText = `TYPE ${resT}`;
@@ -396,7 +381,7 @@
         document.getElementById('result-desc').innerText = resD.desc;
         document.getElementById('result-solution').innerHTML = resD.solution;
 
-        sendDataToSheet("아니오"); // 결과 도달 시 전송
+        sendDataToSheet("いいえ"); // 「いいえ」(No)として送信
     }
 
     async function shareTest() {
@@ -404,13 +389,8 @@
         if (navigator.share) {
             try { await navigator.share({ title: 'B2B営業効率レベル診断', text: '私の営業タイプは？無料診断テストをやってみてください！', url: url }); return; } catch (err) {}
         }
-        try {
-            await navigator.clipboard.writeText(url);
-            alert('コピー完了！友達と共有しましょう。');
-        } catch (err) { prompt('このリンクをコピーして共有しましょう:', url); }
+        navigator.clipboard.writeText(url).then(() => alert('コピー完了！友達と共有しましょう。'));
     }
 </script>
 </body>
 </html>
-
-
